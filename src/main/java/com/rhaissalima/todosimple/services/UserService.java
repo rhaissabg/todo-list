@@ -1,23 +1,18 @@
 package com.rhaissalima.todosimple.services;
 
 import com.rhaissalima.todosimple.models.User;
-import com.rhaissalima.todosimple.repositories.TaskRepository;
 import com.rhaissalima.todosimple.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.management.RuntimeErrorException;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
 
-    public UserService(UserRepository userRepository, TaskRepository taskRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.taskRepository = taskRepository;
     }
 
     public User findById(Long id) {
@@ -29,7 +24,6 @@ public class UserService {
     public User create(User obj) {
         obj.setId(null);
         obj = userRepository.save(obj);
-        taskRepository.saveAll(obj.getTasks());
         return obj;
     }
 
