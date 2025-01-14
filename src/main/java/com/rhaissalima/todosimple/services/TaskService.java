@@ -6,6 +6,7 @@ import com.rhaissalima.todosimple.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,11 @@ public class TaskService {
     public Task findById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
         return task.orElseThrow(() -> new RuntimeException("Task not found!"));
+    }
+
+    public List<Task> findAllByUserId(Long userId) {
+        List<Task> tasks = taskRepository.findByUser_Id(userId);
+        return tasks;
     }
 
     @Transactional
