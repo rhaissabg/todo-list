@@ -2,6 +2,8 @@ package com.rhaissalima.todosimple.services;
 
 import com.rhaissalima.todosimple.models.User;
 import com.rhaissalima.todosimple.repositories.UserRepository;
+import com.rhaissalima.todosimple.services.exceptions.DataBindingViolationException;
+import com.rhaissalima.todosimple.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
@@ -17,7 +19,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(() -> new RuntimeException("User not found!"));
+        return user.orElseThrow(() -> new ObjectNotFoundException("User not found!"));
     }
 
     @Transactional // it's used when we want to persist something in db
@@ -39,7 +41,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Impossible to delete this user!");
+            throw new DataBindingViolationException("Impossible to delete this user!");
         }
     }
 

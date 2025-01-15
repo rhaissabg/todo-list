@@ -3,6 +3,8 @@ package com.rhaissalima.todosimple.services;
 import com.rhaissalima.todosimple.models.Task;
 import com.rhaissalima.todosimple.models.User;
 import com.rhaissalima.todosimple.repositories.TaskRepository;
+import com.rhaissalima.todosimple.services.exceptions.DataBindingViolationException;
+import com.rhaissalima.todosimple.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,7 @@ public class TaskService {
 
     public Task findById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
-        return task.orElseThrow(() -> new RuntimeException("Task not found!"));
+        return task.orElseThrow(() -> new ObjectNotFoundException("Task not found!"));
     }
 
     public List<Task> findAllByUserId(Long userId) {
@@ -51,7 +53,7 @@ public class TaskService {
         try {
             taskRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Impossible to delete task!");
+            throw new DataBindingViolationException("Impossible to delete task!");
         }
     }
 
